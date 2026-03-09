@@ -72,3 +72,68 @@ std::ostream &operator<<(std::ostream &out, const Fixed &fixed_obj)
     return out;
 }
 
+bool Fixed::operator>(const Fixed &other) const
+{
+    return (this->getRawBits() > other.getRawBits());
+}
+
+bool Fixed::operator<(const Fixed &other) const
+{
+    return (this->getRawBits() < other.getRawBits());
+}
+
+bool Fixed::operator>=(const Fixed &other) const
+{
+    return (this->getRawBits() >= other.getRawBits());
+}
+
+bool Fixed::operator<=(const Fixed &other) const
+{
+    return (this->getRawBits() <= other.getRawBits());
+}
+
+bool Fixed::operator==(const Fixed &other) const
+{
+    return (this->getRawBits() == other.getRawBits());
+}
+
+bool Fixed::operator!=(const Fixed &other) const
+{
+    return (this->getRawBits() != other.getRawBits());
+}
+
+Fixed Fixed::operator+(const Fixed &other) const
+{
+    Fixed tmp;
+    tmp.setRawBits(this->getRawBits() + other.getRawBits());
+
+    return(tmp);
+}
+
+Fixed Fixed::operator*(const Fixed &other) const
+{
+    float tmp (this->toFloat() * other.toFloat());
+    Fixed result (tmp);
+
+    return(result);
+}
+
+Fixed Fixed::operator/(const Fixed &other) const
+{
+    if (other.getRawBits() == 0)
+    {
+        std::cout << "ERROR" << std::endl;
+        return(Fixed(0));
+    }
+    float tmp = (this->toFloat() / other.toFloat());
+    
+    Fixed result (tmp);
+
+    return(result);
+}
+
+Fixed Fixed::operator++(void)
+{
+    this->fixed_num += 1;
+    return(*this);
+}

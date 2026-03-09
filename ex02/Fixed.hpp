@@ -22,6 +22,19 @@ class Fixed
 
         int getRawBits(void) const;
         void setRawBits(int const raw);
+
+        bool Fixed::operator>(const Fixed &other) const;
+        bool Fixed::operator<(const Fixed &other) const;
+        bool Fixed::operator>=(const Fixed &other) const;
+        bool Fixed::operator<=(const Fixed &other) const;
+        bool Fixed::operator==(const Fixed &other) const;
+        bool Fixed::operator!=(const Fixed &other) const;
+        
+        Fixed Fixed::operator+(const Fixed &other) const;
+        Fixed Fixed::operator*(const Fixed &other) const;
+        Fixed Fixed::operator/(const Fixed &other) const;
+        Fixed Fixed::operator++(void);
+
 };
 
 std::ostream &operator<<(std::ostream &out, const Fixed &fixed_obj);
