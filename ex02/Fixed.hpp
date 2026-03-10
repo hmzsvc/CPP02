@@ -23,20 +23,31 @@ class Fixed
         int getRawBits(void) const;
         void setRawBits(int const raw);
 
-        bool Fixed::operator>(const Fixed &other) const;
-        bool Fixed::operator<(const Fixed &other) const;
-        bool Fixed::operator>=(const Fixed &other) const;
-        bool Fixed::operator<=(const Fixed &other) const;
-        bool Fixed::operator==(const Fixed &other) const;
-        bool Fixed::operator!=(const Fixed &other) const;
+        bool operator>(const Fixed &other) const;
+        bool operator<(const Fixed &other) const;
+        bool operator>=(const Fixed &other) const;
+        bool operator<=(const Fixed &other) const;
+        bool operator==(const Fixed &other) const;
+        bool operator!=(const Fixed &other) const;
         
-        Fixed Fixed::operator+(const Fixed &other) const;
-        Fixed Fixed::operator*(const Fixed &other) const;
-        Fixed Fixed::operator/(const Fixed &other) const;
-        Fixed Fixed::operator++(void);
+        Fixed operator+(const Fixed &other) const;
+        Fixed operator-(const Fixed &other) const;
+        Fixed operator*(const Fixed &other) const;
+        Fixed operator/(const Fixed &other) const;
 
+        Fixed &operator++(void);
+        Fixed operator++(int);
+        Fixed &operator--(void);
+        Fixed operator--(int);
+        
+        Fixed &max(Fixed &a, Fixed &b);
+        Fixed &min(Fixed &a, Fixed &b);
+        static const Fixed &max(const Fixed &a, const Fixed &b);
+        static const Fixed &min(const Fixed &a, const Fixed &b);
 };
 
 std::ostream &operator<<(std::ostream &out, const Fixed &fixed_obj);
+
+
 
 #endif

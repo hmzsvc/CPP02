@@ -45,12 +45,14 @@ Fixed::Fixed(const int i)
 {
     std::cout << "Int constructor called" << std::endl;
     this->fixed_num = (i << bits);
+    // burada sayıyı 8 bit kaydırarak 2 üzeri 8 ile çarpıp float değer için yer açıyoruz
 }
 
 Fixed::Fixed(const float f)
 {
     std::cout << "Float constructor called" << std::endl;
     this->fixed_num = roundf(f * (1 << bits));
+    //bit kaydırma olmayacağı için 256 ile çarpıp hassasiyeti kaybetmemek için roundf ile yuvarla
 }
 
 int Fixed::toInt(void) const
@@ -66,8 +68,9 @@ float Fixed::toFloat(void) const
 
 std::ostream &operator<<(std::ostream &out, const Fixed &fixed_obj)
 {
-    //float değerini verip tam halini cout basmalı
-    out << fixed_obj.toFloat();
-    //out u geri döndürmeliyiz ki peş peşe işlemlerde çakışma yaşanmasın
-    return out;
+    //out stream kütüp ait bir fonk << ile fixed nesnesinedn bir değer alması gerekiyor 
+    //ama bunu tanımıyor biz ona bu durumda ne yacapağını söylüyoruz
+    out << fixed_obj.toFloat(); // neyi out a göndereceğini biz belirliyoruz 
+    return(out); //out a return değeri atıyoruz ve 
+    //return edip out a gönderiyorki peş peşe çalıştıırp düzenleyelim 
 }

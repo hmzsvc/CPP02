@@ -3,18 +3,18 @@
 
 Fixed::Fixed()
 {
-    this->fixed_num =0;
-    std::cout << "Default constructor called" << std::endl;
+    this->fixed_num = 0;
+    // std::cout << "Default constructor called" << std::endl;
 }
 
 Fixed::~Fixed()
 {
-    std::cout << "Destructor called" << std::endl;
+    // std::cout << "Destructor called" << std::endl;
 }
 
 Fixed::Fixed(const Fixed &other)
 {
-    std::cout << "Copy constructor called" << std::endl;
+    // std::cout << "Copy constructor called" << std::endl;
     // this->fixed_num = other.getRawBits();
     //çıktının birebir aynısı olsun diye bu şekilde yapabilirim
     *this = other;
@@ -22,7 +22,7 @@ Fixed::Fixed(const Fixed &other)
 
 Fixed &Fixed::operator=(const Fixed &other)
 {
-    std::cout << "Copy assignment operator called" << std::endl;
+    // std::cout << "Copy assignment operator called" << std::endl;
     if (this != &other)
     {
         // this->fixed_num = other.getRawBits();//subjectdeki kodun aynısını yapmak istersen bu olucak
@@ -33,7 +33,7 @@ Fixed &Fixed::operator=(const Fixed &other)
 
 int Fixed::getRawBits(void) const
 {
-    std::cout << "getRawBits member funciton called" << std::endl;
+    // std::cout << "getRawBits member funciton called" << std::endl;
     return(this->fixed_num);
 }
 
@@ -43,13 +43,13 @@ void Fixed::setRawBits(int const raw)
 }
 Fixed::Fixed(const int i)
 {
-    std::cout << "Int constructor called" << std::endl;
+    // std::cout << "Int constructor called" << std::endl;
     this->fixed_num = (i << bits);
 }
 
 Fixed::Fixed(const float f)
 {
-    std::cout << "Float constructor called" << std::endl;
+    // std::cout << "Float constructor called" << std::endl;
     this->fixed_num = roundf(f * (1 << bits));
 }
 
@@ -110,6 +110,14 @@ Fixed Fixed::operator+(const Fixed &other) const
     return(tmp);
 }
 
+Fixed Fixed::operator-(const Fixed &other) const
+{
+    Fixed tmp;
+    tmp.setRawBits(this->getRawBits() - other.getRawBits());
+
+    return(tmp);
+}
+
 Fixed Fixed::operator*(const Fixed &other) const
 {
     float tmp (this->toFloat() * other.toFloat());
@@ -122,7 +130,7 @@ Fixed Fixed::operator/(const Fixed &other) const
 {
     if (other.getRawBits() == 0)
     {
-        std::cout << "ERROR" << std::endl;
+        std::cerr << "ERROR" << std::endl;
         return(Fixed(0));
     }
     float tmp = (this->toFloat() / other.toFloat());
@@ -132,8 +140,61 @@ Fixed Fixed::operator/(const Fixed &other) const
     return(result);
 }
 
-Fixed Fixed::operator++(void)
+Fixed &Fixed::operator++(void)
 {
+    //prefix 
+    //en küçük birim epsilon kadar büyür referans döndür
     this->fixed_num += 1;
     return(*this);
+}
+
+Fixed Fixed::operator++(int)
+{
+    //postfix
+    //copy constructor ile kopyayı döndür adres değil
+    Fixed tmp(*this);
+    this->fixed_num += 1;
+    return(tmp);
+}
+
+Fixed &Fixed::operator--(void)
+{
+    this->fixed_num -= 1;
+    return(*this);
+}
+
+Fixed Fixed::operator--(int)
+{
+    Fixed tmp(*this);
+    this->fixed_num -= 1;
+    return(tmp);
+}
+
+Fixed &Fixed::max(Fixed &a, Fixed &b)
+{
+    // return(a > b ? a : b); ternary operator
+    if (a > b)
+        return a;
+    else
+        return b;
+}
+
+const Fixed &Fixed::max(const Fixed &a, const Fixed &b)
+{
+    //!!bununla beraber saedce okuma yapcaak olan fonklara const ekleyerek güvenli hale getirilir
+    return(a > b ? a : b); //ternary operator
+}
+
+Fixed &Fixed::min(Fixed &a, Fixed &b)
+{
+    return(a < b ? a : b); //ternary operator
+}
+
+const Fixed &Fixed::min(const Fixed &a, const Fixed &b)
+{
+    // return(a < b ? a : b); //ternary operator
+    if (a < b)
+        return a;
+    else
+        return b;
 }
